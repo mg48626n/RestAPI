@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>Update User</title>
+
+</head>
+<body>
+<script type="text/javascript">
+function showdata()
+{
+	var txt = "";
+	$.ajax({
+	    type: "GET",
+	    url: "http://localhost:8013/RESTfulWebService/rest/colors/getColors",
+	    contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	        console.log(data);
+	        if(data){
+	        	alert("in");
+                var len = data.length;
+                
+                if(len > 0){
+                    for(var i=0;i<len;i++){
+                        
+                            txt += "<tr><td>"+data[i].color+"</td><td>"+data[i].category+"</td><td>"+data[i].type+"</td><td>"+data[i].rgba+"</td><td>"+data[i].hex+"</td></tr>";
+                       
+                    }
+                    if(txt != ""){
+                        $("#table").append(txt);
+                    }
+                }
+            }
+	    }
+	});
+	}
+	
+function showSingledata()
+{
+	var txt = "";
+	var id = document.getElementById("text");
+	alert(id.value);
+	console.log('ss');
+	$.ajax({
+	    type: "GET",
+	    url: "http://localhost:8013/RESTfulWebService/rest/colors/getSingleColors/"+id.value,
+	    contentType: "application/json; charset=utf-8",
+	    success: function(data) {
+	        //dataTable(data);
+	        console.log(data);
+	        if(data){
+	        	alert("in");
+                var len = data.length;
+                
+                if(len > 0){
+                    for(var i=0;i<len;i++){
+                        
+                            txt += "<tr><td>"+data[i].color+"</td><td>"+data[i].category+"</td><td>"+data[i].type+"</td><td>"+data[i].rgba+"</td><td>"+data[i].hex+"</td></tr>";
+                       
+                    }
+                    if(txt != ""){
+                        $("#table").append(txt);
+                    }
+                }
+            }
+	    }
+	});
+	}
+</script>
+	<!-- <form method="post" action="http://localhost:8013/RESTfulWebService/backend/user/service">
+	Name: <input type="text" name="username"/>
+	<input type="submit" value="submit"/> 
+	</form>-->
+	<button onclick="showdata();" value="Showall">Show All</button>
+	<button onclick="showSingledata();" value="Showall">Show Key Data</button>
+	<input type="text" id="text">
+	<table id="table" >
+    <tr>
+        <th>color</th>
+        <th>category</th>
+        <th>type</th>
+        <th>rgba</th>
+        <th>hex</th>
+    </tr>
+</table>
+</body>
+</html>
